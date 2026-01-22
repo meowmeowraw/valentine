@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: #ffeef2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  #container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+  }
+
+  h1 {
+    color: #ff4d6d;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  #mainGif {
+    width: 200px;
+    margin: 10px auto;
+    display: block;
+  }
+
+  .buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  #yesBtn {
+    background: #2ecc71;
+    color: white;
+  }
+
+  #noBtn {
+    background: #e74c3c;
+    color: white;
+  }
+
+  .fullscreen {
+    position: fixed;
+    inset: 0;
+    background: #2ecc71;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
+  }
+
+  .fullscreen img {
+    width: 250px;
+    margin-bottom: 20px;
+  }
+
+  .fullscreen h1 {
+    color: white;
+    font-size: 36px;
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+  <h1 id="question">Will you be my Valentine?</h1>
+  <img id="mainGif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Cute cat-bear gif"/>
+  <div class="buttons">
+    <button id="yesBtn">Yes 💚</button>
+    <button id="noBtn">No 💔</button>
+  </div>
+</div>
+
+<script>
+let noClicks = 0;
+let yesScale = 1;
+
+const noMessages = [
+  "Are you sure?",
+  "Really sure?",
+  "Are you positive?",
+  "Pookie please",
+  "Just think about it",
+  "If you say no, I will be really sad..",
+  "I will be sad.",
+  "I will be very very sad…"
+];
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const question = document.getElementById("question");
+const mainGif = document.getElementById("mainGif");
+
+noBtn.addEventListener("click", () => {
+  if(noClicks < noMessages.length){
+    question.textContent = noMessages[noClicks];
+    noClicks++;
+  }
+
+  // grow the yes button
+  yesScale *= 1.5;
+  yesBtn.style.transform = `scale(${yesScale})`;
+
+  // move the GIF slightly up as Yes grows
+  mainGif.style.transform = `translateY(-${Math.min(yesScale*5, 50)}px) scale(1)`;
+
+  // eventually fill screen with Yes button
+  if(yesScale > 8){
+    yesBtn.style.position = 'fixed';
+    yesBtn.style.inset = '0';
+    yesBtn.style.width = '100vw';
+    yesBtn.style.height = '100vh';
+    yesBtn.style.borderRadius = '0';
+    yesBtn.style.fontSize = '40px';
+    yesBtn.textContent = "YES 💚";
+    mainGif.style.display = 'none';
+    question.style.display = 'none';
+    noBtn.style.display = 'none';
+  }
+});
+
+yesBtn.addEventListener("click", () => {
+  document.body.innerHTML = `
+    <div class="fullscreen">
+      <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="Bear hug"/>
+      <h1>Knew you would say that 💕</h1>
+    </div>
+  `;
+});
+</script>
+
+</body>
+</html>
+
